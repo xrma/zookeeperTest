@@ -15,7 +15,7 @@ import org.apache.zookeeper.data.Id;
 
 public class zookeeperTest {
     public static void main(String[] args) throws IOException, KeeperException, InterruptedException {
-        ZooKeeper zookeeper = new ZooKeeper("0.0.0.0:2181", 3000, new Watcher() {
+        ZooKeeper zookeeper = new ZooKeeper("127.0.0.1:2181", 3000, new Watcher() {
             @Override
             public void process(WatchedEvent watchedEvent) {
                 // TODO Auto-generated method stub
@@ -24,8 +24,10 @@ public class zookeeperTest {
         });
 
         // 创建一个目录节点
-        zookeeper.create("/zookeeper3", "zookeeperTest".getBytes(), aclList(), CreateMode.PERSISTENT);
-        System.out.println(new String(zookeeper.getData("/", false, null)));
+        zookeeper.create("/zookeeper12", "zookeeperTest".getBytes(), aclList(), CreateMode.PERSISTENT);
+        System.out.println(new String(zookeeper.getData("/zookeeper12", false, null)));
+        
+        zookeeper.delete("/zookeeper2", -1);
         zookeeper.close();
     }
 
