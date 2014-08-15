@@ -24,17 +24,20 @@ public class zookeeperTest {
         });
 
         // 创建一个目录节点
-        zookeeper.create("/zookeeper12", "zookeeperTest".getBytes(), aclList(), CreateMode.PERSISTENT);
-        System.out.println(new String(zookeeper.getData("/zookeeper12", false, null)));
+        zookeeper.create("/zookeeperRoot", "zookeeperTest".getBytes(), aclList(), CreateMode.PERSISTENT);
+        // 创建一个子目录节点
+        zookeeper.create("/zookeeperRoot/zookeeperChildOne", "zookeeperTestChildOne".getBytes(), aclList(), CreateMode.PERSISTENT);
+        System.out.println(new String(zookeeper.getData("/zookeeperRoot", true, null)));
         
-        zookeeper.delete("/zookeeper2", -1);
+        zookeeper.delete("/zookeeperRoot/zookeeperChildOne", -1);
+        zookeeper.delete("/zookeeperRoot", -1);
         zookeeper.close();
     }
 
     private static List<ACL> aclList() {
         List<ACL> aclList = new ArrayList<ACL>();
         Id id1 = new Id("world", "anyone");
-        ACL acl1 = new ACL(ZooDefs.Perms.READ, id1);
+        ACL acl1 = new ACL(ZooDefs.Perms.ALL, id1);
         aclList.add(acl1);
         return aclList;
     }
